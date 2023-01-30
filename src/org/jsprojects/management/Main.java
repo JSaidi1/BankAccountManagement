@@ -14,14 +14,14 @@ public class Main {
 		int choice;
 		ArrayList<Agency>agencyArray = new ArrayList<>();
 		ArrayList<Customer>customerArray = new ArrayList<>();
-		ArrayList<BankAccount> bankAccountArray = new ArrayList<>();
+		ArrayList<BankAccount>bankAccountArray = new ArrayList<>();
 		String id_customerStr = "";
 		//
 		Bank bank = new Bank();
 		//BankAccount bankAccount = new BankAccount();
 		//
 		Scanner scanner = new Scanner(System.in);
-		
+
 		while(end == false) {
 			//bankAccount.displayBankAccountMenu();
 			bank.displayBankAccountMenu();
@@ -80,14 +80,14 @@ public class Main {
 				if(agencyArray.size() == 0) {
 					System.out.println("You can't create a new customer because agency not exists");
 					break;
-				
+
 				}
 				else /*(agencyArray.size() != 0) */{
 					System.out.println("Set : customer id (Alphanumeric consisting of two uppercase characters + 6 digits): ");
 					id_customerStr = scanner.nextLine();
-					
+
 					if (customer.id_customerIsValid(id_customerStr) == true ) {
-						
+
 						//if(customer.getNbreOfAccounts() <= 3) {
 						customer.setId_customer(id_customerStr); 
 						//
@@ -114,7 +114,7 @@ public class Main {
 						}
 						System.out.println("which agency do you want to assign this client (set code)?");
 						String choiceAgency = scanner.nextLine();
-							//check if choiceAgency is a correct code of an agency
+						//check if choiceAgency is a correct code of an agency
 						boolean codeIsOnAnAgency = false;
 						for (Agency agencyEmlement : agencyArray) {
 							if(choiceAgency.equals(agencyEmlement.getCode())) {
@@ -122,7 +122,7 @@ public class Main {
 								break;
 							}
 						}
-						
+
 						if(codeIsOnAnAgency == true) {
 							//add customer to agency:
 							//agencyArray.add(customerArray);
@@ -138,91 +138,98 @@ public class Main {
 						}else {
 							System.out.println("Error: the code you entered("+choiceAgency+") does not exists for any agency.");
 						}
-						
+
 					}else {
 						System.out.println("Customer is not valid: it must be alphanumeric consisting of two uppercase characters + 6 digits");
 					}
 				}
-				
-			
-			break;
-		case 3:
-			
-			  BankAccount bA = new BankAccount(); 
-			  bA.createBankAccount();
-			  System.out.println("==>Created bankAccount: "+ bA);
-			  // check if account is already attribut
-			  if (customerArray.size()==0) {
-				  System.out.println("You must create at least one customer before created an account");
-			  } else {
-				  boolean accountNumberAlreadyExist = false;
-				  for (Customer customerEmlement : customerArray) {
-					System.out.println(customerEmlement);
-					
-					//bankAccountArray.add(bA);
-					
-					for (int i=0; i < customerEmlement.getArrayBankAccount().size(); i++) {
-						//if (customerEmlement.getArrayBankAccount().get(i).getAccountNumber() == bA.getAccountNumber() ) {
-						if (customerEmlement.getArrayBankAccount().size() != 0) {
-							if (customerEmlement.getArrayBankAccount().get(i).getAccountNumber() == bA.getAccountNumber() ) {
-								//accountNumberAlreadyExist = true;
-								System.out.println("Error, you can't create this account because it's belongs to an other customer");
+				break;
+			case 3:
+				if (customerArray.size() == 0 ) {
+					System.out.println("You must create at least one customer before creating an account");
+				}else {
+					boolean accountNumberAlreadyExist = false;
+					//
+					BankAccount bA = new BankAccount(); 
+					bA.createBankAccount();
+					System.out.println("==>Bank Account Created : "+ bA);
+					//
+					for (Customer customerElement : customerArray) {
+						for (int i = 0; i < customerElement.getArrayBankAccount().size(); i++) {
+							if (customerElement.getArrayBankAccount().get(i).getAccountNumber() == bA.getAccountNumber()) {
+								accountNumberAlreadyExist = true;
 								break;
-							}
-							else {
-								bankAccountArray.add(bA);
-								System.out.println("Customers who already exist: " + customerArray);
-							}
-						}else {
-							bankAccountArray.add(bA);
-							System.out.println("Customers who already exist: " + customerArray);
+							} 
 						}
 					}
-					/*
-					if (accountNumberAlreadyExist == true) {
+					
+					if (accountNumberAlreadyExist) {
+						System.out.println("Error: you can't create this new account because there is already exists which this account number("+bA.getAccountNumber()+")");
+					} else {//accountNumberAlreadyExist = false
+						//add this new account to bankAccountArray
 						bankAccountArray.add(bA);
 						
-						// 
-						System.out.println("Customers who already exist: " + customerArray);
+						//choose a custmer to add this account
+						System.out.println("Customers :");
+						System.out.println(customerArray);
+						System.out.println("Choose customer in which you will add the account? (set id_customer (Alphanumeric consisting of two uppercase characters + 6 digits)): ");
 						
+						//add bankAccountArray to a custommer from customerArray
+						String choiceIdCustomer = scanner.nextLine();
+						boolean stopWhile = false;
+						boolean idCustomerChoosedIsInACustomer = false;
 						
-						
-					}else {
-						System.out.println("Error, you can't create this account because it's belongs to an other customer");
-					}
-					*/
-			  }
-			  
-			  // 11111111111
-			  }
+						while(stopWhile == false) {
+							System.out.println("id_customer is not valid: set again the id_customer (Alphanumeric consisting of two uppercase characters + 6 digits)): ");
+							System.out.println("To exit: set exit");
+							
+							choiceIdCustomer = scanner.nextLine();
+							
+							if (choiceIdCustomer.equals("exit")) {
+								stopWhile = true;
+							}else {
+								for (Customer customerElement : customerArray) {
+									if(customerElement.getId_customer().equals(choiceIdCustomer)) {
+										idCustomerChoosedIsInACustomer = true;
+										//
+										customerElement.setArrayBankAccount(bankAccountArray);
+										System.out.println("==>Accounts tab are added to the choosen customer ("+choiceIdCustomer+").");
+										//
+										stopWhile = true;
+										break;
+									}
+								}//for
+							}//else
+						}//while
+					}//else
+				}//else
+				System.out.println("customerArray : "+customerArray);
+				break;
+			case 4:
 
-			break;
-			  
-		case 4:
 
-			
-			break;
-		case 5:
+				break;
+			case 5:
 
-			break;
-		case 6:
+				break;
+			case 6:
 
-			break;
-		case 7:
+				break;
+			case 7:
 
-			break;
-		case 8:
-			System.out.println("Au revoir !");
-			end = true;
-			break;
+				break;
+			case 8:
+				System.out.println("Au revoir !");
+				end = true;
+				break;
 
-		default:
-			System.out.println("=>Input error, please choose '1' or '2' or '3' or '4' or '5' or '6' or '7' or '8' from the menu below!");
-			break;
+			default:
+				System.out.println("=>Input error, please choose '1' or '2' or '3' or '4' or '5' or '6' or '7' or '8' from the menu below!");
+				break;
+			}
+
 		}
 
 	}
-
-}
 
 }
