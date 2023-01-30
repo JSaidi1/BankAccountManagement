@@ -14,11 +14,14 @@ public class Main {
 		int choice;
 		ArrayList<Agency>agencyArray = new ArrayList<>();
 		ArrayList<Customer>customerArray = new ArrayList<>();
+		ArrayList<BankAccount> bankAccountArray = new ArrayList<>();
 		String id_customerStr = "";
 		//
 		Bank bank = new Bank();
 		//BankAccount bankAccount = new BankAccount();
 		//
+		Scanner scanner = new Scanner(System.in);
+		
 		while(end == false) {
 			//bankAccount.displayBankAccountMenu();
 			bank.displayBankAccountMenu();
@@ -33,10 +36,10 @@ public class Main {
 				boolean codeAlreadyExists = false;
 
 				Agency agency = new Agency();
-				//
-				Scanner scanner = new Scanner(System.in);
+				// 
+				Scanner scanner1 = new Scanner(System.in);
 				System.out.println("Set : agence number: ");
-				codeStr = scanner.nextLine();
+				codeStr = scanner1.nextLine();
 				//
 				if(agency.codeIsValid(codeStr) == true){
 					//control if codeStr not already exists on agencyArray list in an object:
@@ -51,10 +54,10 @@ public class Main {
 						agency.setCode(codeStr);
 						//
 						System.out.println("Set : agence name: ");
-						agency.setName(scanner.nextLine());
+						agency.setName(scanner1.nextLine());
 						//
 						System.out.println("Set : agence adress: ");
-						agency.setAdress(scanner.nextLine());
+						agency.setAdress(scanner1.nextLine());
 						//
 						agencyArray.add(agency);
 						//
@@ -72,7 +75,7 @@ public class Main {
 				//
 				Customer customer = new Customer();
 				//
-				Scanner scanner1 = new Scanner(System.in);
+				//Scanner scanner1 = new Scanner(System.in);
 				//
 				if(agencyArray.size() == 0) {
 					System.out.println("You can't create a new customer because agency not exists");
@@ -81,7 +84,7 @@ public class Main {
 				}
 				else /*(agencyArray.size() != 0) */{
 					System.out.println("Set : customer id (Alphanumeric consisting of two uppercase characters + 6 digits): ");
-					id_customerStr = scanner1.nextLine();
+					id_customerStr = scanner.nextLine();
 					
 					if (customer.id_customerIsValid(id_customerStr) == true ) {
 						
@@ -89,19 +92,19 @@ public class Main {
 						customer.setId_customer(id_customerStr); 
 						//
 						System.out.println("Set : firstName: ");
-						customer.setFirstName(scanner1.nextLine()); 
+						customer.setFirstName(scanner.nextLine()); 
 						//
 						System.out.println("Set : lastName: ");
-						customer.setLastName(scanner1.nextLine());
+						customer.setLastName(scanner.nextLine());
 						//
 						System.out.println("Set : birthdate (format MM/dd/yyyy): ");
-						dateStr = scanner1.nextLine();
+						dateStr = scanner.nextLine();
 						SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 						Date d = sdf.parse(dateStr);
 						customer.setBirthdate(d);
 						//
 						System.out.println("Set : email: ");
-						customer.setEmail(scanner1.nextLine());
+						customer.setEmail(scanner.nextLine());
 						//
 						customerArray.add(customer);
 						//add customer to agency:
@@ -110,7 +113,7 @@ public class Main {
 							System.out.println(agencyEmlement);
 						}
 						System.out.println("which agency do you want to assign this client (set code)?");
-						String choiceAgency = scanner1.nextLine();
+						String choiceAgency = scanner.nextLine();
 							//check if choiceAgency is a correct code of an agency
 						boolean codeIsOnAnAgency = false;
 						for (Agency agencyEmlement : agencyArray) {
@@ -127,6 +130,7 @@ public class Main {
 							for (Agency agencyEmlement : agencyArray) {
 								if(choiceAgency.equals(agencyEmlement.getCode())) {
 									agencyEmlement.setArrayCustomer(customerArray);
+									break;
 								}
 							}
 							//System.out.println(agencyArray);
@@ -141,45 +145,62 @@ public class Main {
 				}
 				
 			
-			//
-			//System.out.println("Set : customer id (Alphanumeric consisting of two uppercase characters + 6 digits): ");
-			//id_customerStr = scanner1.nextLine();
-			//
-			/*					
-					if (customer.id_customerIsValid(id_customerStr) == true ) {
-						//if(customer.getNbreOfAccounts() <= 3) {
-							customer.setId_customer(id_customerStr); 
-							//
-							System.out.println("Set : firstName: ");
-							customer.setFirstName(scanner1.nextLine()); 
-							//
-							System.out.println("Set : lastName: ");
-							customer.setLastName(scanner1.nextLine());
-							//
-							System.out.println("Set : birthdate (format MM/dd/yyyy): ");
-							dateStr = scanner1.nextLine();
-							SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-							Date d = sdf.parse(dateStr);
-							customer.setBirthdate(d);
-							//
-							System.out.println("Set : email: ");
-							customer.setEmail(scanner1.nextLine());
-							//choose an agence
-							//System.out.println(agencyArray);
-
-
-						//}else {
-							//System.out.println("This customer have already 3 accounts!");
-						//}
-					}else {
-						System.out.println("Customer is not valid: it must be alphanumeric consisting of two uppercase characters + 6 digits");
-					}*/
 			break;
 		case 3:
+			
+			  BankAccount bA = new BankAccount(); 
+			  bA.createBankAccount();
+			  System.out.println("==>Created bankAccount: "+ bA);
+			  // check if account is already attribut
+			  if (customerArray.size()==0) {
+				  System.out.println("You must create at least one customer before created an account");
+			  } else {
+				  boolean accountNumberAlreadyExist = false;
+				  for (Customer customerEmlement : customerArray) {
+					System.out.println(customerEmlement);
+					
+					//bankAccountArray.add(bA);
+					
+					for (int i=0; i < customerEmlement.getArrayBankAccount().size(); i++) {
+						//if (customerEmlement.getArrayBankAccount().get(i).getAccountNumber() == bA.getAccountNumber() ) {
+						if (customerEmlement.getArrayBankAccount().size() != 0) {
+							if (customerEmlement.getArrayBankAccount().get(i).getAccountNumber() == bA.getAccountNumber() ) {
+								//accountNumberAlreadyExist = true;
+								System.out.println("Error, you can't create this account because it's belongs to an other customer");
+								break;
+							}
+							else {
+								bankAccountArray.add(bA);
+								System.out.println("Customers who already exist: " + customerArray);
+							}
+						}else {
+							bankAccountArray.add(bA);
+							System.out.println("Customers who already exist: " + customerArray);
+						}
+					}
+					/*
+					if (accountNumberAlreadyExist == true) {
+						bankAccountArray.add(bA);
+						
+						// 
+						System.out.println("Customers who already exist: " + customerArray);
+						
+						
+						
+					}else {
+						System.out.println("Error, you can't create this account because it's belongs to an other customer");
+					}
+					*/
+			  }
+			  
+			  // 11111111111
+			  }
 
 			break;
+			  
 		case 4:
 
+			
 			break;
 		case 5:
 

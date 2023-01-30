@@ -11,8 +11,12 @@ public class Customer {
 	private Date birthdate;
 	private String email;
 	//private int nbreOfAccounts = 0;//max 3
-	private ArrayList<BankAccount>arrayBankAccount;//max 3
+	private ArrayList<BankAccount>arrayBankAccount = new ArrayList<>();//max 3
 	
+	public ArrayList<BankAccount> getArrayBankAccount() {
+		return arrayBankAccount;
+	}
+
 	/*
 	public int getNbreOfAccounts() {
 		return nbreOfAccounts;
@@ -32,6 +36,10 @@ public class Customer {
 
 	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;
+	}
+
+	public String getId_customer() {
+		return id_customer;
 	}
 
 	public void setEmail(String email) {
