@@ -30,6 +30,18 @@ public class Customer {
 		this.id_customer = id_customer;
 	}
 
+	public Date getBirthdate() {
+		return birthdate;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}

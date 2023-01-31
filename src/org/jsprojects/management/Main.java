@@ -1,5 +1,8 @@
 package org.jsprojects.management;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,7 +11,7 @@ import java.util.Scanner;
 
 public class Main {
 
-	public static void main(String[] args) throws ParseException {
+	public static void main(String[] args) throws ParseException, FileNotFoundException {
 
 		boolean end = false;
 		int choice;
@@ -205,19 +208,90 @@ public class Main {
 				}//else
 				System.out.println("customerArray : "+customerArray);
 				break;
+				
 			case 4:
-
-
+				long searchNumberAccount= 0;
+				for (BankAccount bankAccount : bankAccountArray) {
+					System.out.println("Please enter the number account who search ");
+					searchNumberAccount = scanner.nextLong();
+					if (bankAccount.getAccountNumber() == searchNumberAccount ) {
+						System.out.println(bankAccountArray);
+					}
+					else {
+						System.out.println("this account number doesn't exist");
+					}
+				}
+				
 				break;
+				
 			case 5:
+				
 
 				break;
 			case 6:
 
+				String searchIdCustomer= "";
+				for (Customer custom : customerArray) {
+					System.out.println("Please enter the id customer who search ");
+					searchIdCustomer = scanner.next();
+					if (custom.getId_customer().equals(searchIdCustomer)) {
+						System.out.println(customerArray);
+					}
+					else {
+						System.out.println("this customer doesn't exist");
+					}
+				}
+				
 				break;
+			
 			case 7:
-
+				
+				float BalanceAccount =0;
+				long Account =0;
+				for (BankAccount bankAccount : bankAccountArray) {
+					BalanceAccount= bankAccount.getBalance();
+					Account= bankAccount.getAccountNumber();
+				}
+				
+				
+				for (Customer custom : customerArray) {
+					System.out.println("Please enter the id customer who search ");
+					searchIdCustomer = scanner.next();
+					if (custom.getId_customer().equals(searchIdCustomer)) {
+						
+						PrintWriter writer = new PrintWriter(System.out);
+						writer= new PrintWriter (new File("C:\\Users\\59013-42-09\\Desktop\\b\\file.txt"));
+						writer.write("Fiche Client ");
+						writer.write(System.getProperty( "line.separator" ));
+						writer.write(System.getProperty( "line.separator" ));
+						writer.write("Numéro Client : " + searchIdCustomer);
+						writer.write(System.getProperty( "line.separator" ));
+						writer.write("Nom : "  + custom.getLastName());
+						writer.write(System.getProperty( "line.separator" ));
+						writer.write("Prénom : "  + custom.getFirstName());
+						writer.write(System.getProperty( "line.separator" ));
+						writer.write("Date de naissance : "  + custom.getBirthdate());
+						writer.write(System.getProperty( "line.separator" ));
+						writer.write("----------------------------------------------------------------------");
+						writer.write(System.getProperty( "line.separator" ));
+						writer.write("Liste de compte");
+						writer.write(System.getProperty( "line.separator" ));
+						writer.write("----------------------------------------------------------------------");
+						writer.write(System.getProperty( "line.separator" ));
+						writer.write("Numéro de compte"+"...................................." + " Solde");
+						writer.write(System.getProperty( "line.separator" ));
+						writer.write("----------------------------------------------------------------------");
+						writer.write(System.getProperty( "line.separator" ));
+						writer.write(Account + "...................................." + BalanceAccount);
+						writer.flush();
+					    writer.close();
+					}
+					else {
+						System.out.println("this customer doesn't exist");
+					}
+				}
 				break;
+				
 			case 8:
 				System.out.println("Au revoir !");
 				end = true;

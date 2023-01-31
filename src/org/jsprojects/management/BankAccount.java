@@ -13,6 +13,14 @@ public class BankAccount {
 		this.accountNumber = accountNumber;
 	}
 
+	public float getBalance() {
+		return balance;
+	}
+
+	public void setBalance(float balance) {
+		this.balance = balance;
+	}
+
 	private float balance;
 	private boolean overdraft;
 	private String type;
@@ -43,6 +51,8 @@ public class BankAccount {
 		// sc1.close();
 	}
 
+	
+	
 	@Override
 	public String toString() {
 		return "BankAccount [accountNumber=" + accountNumber + ", balance=" + balance + ", overdraft=" + overdraft
