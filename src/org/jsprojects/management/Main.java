@@ -183,7 +183,7 @@ public class Main {
 							System.out.println("id_customer is not valid: set again the id_customer (Alphanumeric consisting of two uppercase characters + 6 digits)): ");
 							System.out.println("To exit: set exit");
 							
-							choiceIdCustomer = scanner.nextLine();
+							choiceIdCustomer = scanner.nextLine();//
 							
 							if (choiceIdCustomer.equals("exit")) {
 								stopWhile = true;
